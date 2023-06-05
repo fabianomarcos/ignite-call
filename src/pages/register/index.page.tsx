@@ -5,6 +5,8 @@ import { Container, Form, FormError, Header } from './styles'
 import { useRouter } from 'next/router'
 import { validateSchema } from '@/utils/schemaValidator'
 import { RegisterFormDataType, registerFormSchema } from '@/utils/schemas/registerSchema'
+import { api } from '@/lib/axios'
+import { AxiosError } from 'axios'
 
 export default function Register() {
   const {
@@ -23,8 +25,20 @@ export default function Register() {
   }, [router.query?.username, setValue])
 
 
-  function handleRegister(data: RegisterFormDataType) {
-    console.log(data)
+  async function handleRegister({ name, username }: RegisterFormDataType) {
+    try {
+      await api.post('/users', {
+        name,
+        username,
+      })
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        alert(err.response.data.message)
+        return
+      }
+
+      console.error(err)
+    }
   }
 
   return (
