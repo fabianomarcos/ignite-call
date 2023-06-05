@@ -4,7 +4,7 @@ import { ZodType } from "zod";
 
 export function validateSchema<T extends ZodType>(formSchema: T) {
   type Schema = typeof formSchema;
-  v.b
+
   const {
     register,
     handleSubmit,
