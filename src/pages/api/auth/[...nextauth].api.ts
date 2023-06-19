@@ -35,13 +35,8 @@ export function buildNextAuthOptions(
     ],
     callbacks: {
       async signIn({ account }) {
-        if (
-          !account?.scope?.includes('https://www.googleapis.com/auth/calendar')
-        ) {
-          return '/register/connect-calendar?error=permissions'
-        }
-
-        return true
+        const scope = account?.scope?.includes('https://www.googleapis.com/auth/calendar')
+        return scope ? true : '/register/connect-calendar?error=permissions'
       },
       async session({ session, user }) {
         return {
