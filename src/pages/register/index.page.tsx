@@ -8,6 +8,7 @@ import { RegisterFormDataType, registerFormSchema } from '@/utils/schemas/regist
 import { api } from '@/lib/axios'
 import { AxiosError } from 'axios'
 
+
 export default function Register() {
   const {
     register,
@@ -31,12 +32,13 @@ export default function Register() {
         name,
         username,
       })
+
+      await router.push('/register/connect-calendar')
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response.data.message)
         return
       }
-
       console.error(err)
     }
   }
