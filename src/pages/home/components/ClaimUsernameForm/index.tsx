@@ -2,17 +2,16 @@ import { ArrowRight } from 'phosphor-react'
 import { useRouter } from 'next/router'
 
 import { Button, Text, TextInput } from '@ignite-ui/react'
-import { Form, FormAnnotation  } from './styles'
+import { Form, FormAnnotation } from './styles'
 import { validateSchema } from '@/utils/schemaValidator'
-import { ClaimUsernameFormDataType, claimUsernameFormData } from '@/utils/schemas/claimUserNameSchema'
+import {
+  ClaimUsernameFormDataType,
+  claimUsernameFormData,
+} from '@/utils/schemas/claimUserNameSchema'
 
 export function ClaimUsernameForm() {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    isSubmitting,
-  } = validateSchema<ClaimUsernameFormDataType>(claimUsernameFormData)
+  const { register, handleSubmit, errors, isSubmitting } =
+    validateSchema<ClaimUsernameFormDataType>(claimUsernameFormData)
 
   const router = useRouter()
 
@@ -30,7 +29,7 @@ export function ClaimUsernameForm() {
           placeholder="seu-usuário"
           {...register('username')}
         />
-         <Button size="sm" type="submit" disabled={isSubmitting}>
+        <Button size="sm" type="submit" disabled={isSubmitting}>
           Reservar
           <ArrowRight />
         </Button>

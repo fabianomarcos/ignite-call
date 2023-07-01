@@ -1,9 +1,9 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { ZodType } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { ZodType } from 'zod'
 
 export function validateSchema<T extends ZodType>(formSchema: T) {
-  type Schema = typeof formSchema;
+  type Schema = typeof formSchema
 
   const {
     register,
