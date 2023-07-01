@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useMemo, useState } from 'react'
 import { api } from '../../lib/axios'
-import { getWeekDays } from '../../utils/get-week-days'
+import { getWeekDays } from '../../utils/getWeekDays'
 import {
   CalendarActions,
   CalendarBody,
