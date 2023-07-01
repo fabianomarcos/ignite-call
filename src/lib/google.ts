@@ -21,9 +21,7 @@ export async function getGoogleOAuthToken(userId: string) {
     expiry_date: account.expires_at ? account.expires_at * 1000 : null,
   })
 
-  if (!account.expires_at) {
-    return auth
-  }
+  if (!account.expires_at) return auth
 
   const isTokenExpired = dayjs(account.expires_at * 1000).isBefore(new Date())
 
@@ -39,9 +37,7 @@ export async function getGoogleOAuthToken(userId: string) {
     } = credentials
 
     await prisma.account.update({
-      where: {
-        id: account.id,
-      },
+      where: { id: account.id },
       data: {
         access_token,
         expires_at: expiry_date ? Math.floor(expiry_date / 1000) : null,

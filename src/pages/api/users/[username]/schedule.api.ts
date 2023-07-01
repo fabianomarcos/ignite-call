@@ -34,11 +34,10 @@ export default async function handler(
 
   const schedulingDate = dayjs(date).startOf('hour')
 
-  if (schedulingDate.isBefore(new Date())) {
+  if (schedulingDate.isBefore(new Date()))
     return res.status(400).json({
       message: 'Date is in the past.',
     })
-  }
 
   const conflictingScheduling = await (prisma as any).scheduling.findFirst({
     where: {
@@ -47,11 +46,10 @@ export default async function handler(
     },
   })
 
-  if (conflictingScheduling) {
+  if (conflictingScheduling)
     return res.status(400).json({
       message: 'There is another scheduling at at the same time.',
     })
-  }
 
   const scheduling = await (prisma as any).scheduling.create({
     data: {
@@ -74,19 +72,13 @@ export default async function handler(
     requestBody: {
       summary: `Ignite Call: ${name}`,
       description: observations,
-      start: {
-        dateTime: schedulingDate.format(),
-      },
-      end: {
-        dateTime: schedulingDate.add(1, 'hour').format(),
-      },
+      start: { dateTime: schedulingDate.format() },
+      end: { dateTime: schedulingDate.add(1, 'hour').format() },
       attendees: [{ email, displayName: name }],
       conferenceData: {
         createRequest: {
           requestId: scheduling.id,
-          conferenceSolutionKey: {
-            type: 'hangoutsMeet',
-          },
+          conferenceSolutionKey: { type: 'hangoutsMeet' },
         },
       },
     },
