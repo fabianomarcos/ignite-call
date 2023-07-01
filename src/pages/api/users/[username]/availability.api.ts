@@ -6,16 +6,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'GET') {
-    return res.status(405).end()
-  }
+  if (req.method !== 'GET') return res.status(405).end()
 
   const username = String(req.query.username)
   const { date } = req.query
 
-  if (!date) {
-    return res.status(400).json({ message: 'Date no provided.' })
-  }
+  if (!date) return res.status(400).json({ message: 'Date no provided.' })
 
   const user = await prisma.user.findUnique({
     where: {
@@ -23,16 +19,12 @@ export default async function handler(
     },
   })
 
-  if (!user) {
-    return res.status(400).json({ message: 'User does not exist.' })
-  }
+  if (!user) return res.status(400).json({ message: 'User does not exist.' })
 
   const referenceDate = dayjs(String(date))
   const isPastDate = referenceDate.endOf('day').isBefore(new Date())
 
-  if (isPastDate) {
-    return res.json({ possibleTimes: [], availableTimes: [] })
-  }
+  if (isPastDate) return res.json({ possibleTimes: [], availableTimes: [] })
 
   const userAvailability = await prisma.userTimeInterval.findFirst({
     where: {
@@ -41,9 +33,8 @@ export default async function handler(
     },
   })
 
-  if (!userAvailability) {
+  if (!userAvailability)
     return res.json({ possibleTimes: [], availableTimes: [] })
-  }
 
   const { time_start_in_minutes, time_end_in_minutes } = userAvailability
 
@@ -56,7 +47,7 @@ export default async function handler(
     },
   )
 
-  const blockedTimes: any = [] /* await prisma.scheduling.findMany({
+  const blockedTimes = await prisma.scheduling.findMany({
     select: {
       date: true,
     },
@@ -67,7 +58,7 @@ export default async function handler(
         lte: referenceDate.set('hour', endHour).toDate(),
       },
     },
-  }) */
+  })
 
   const availableTimes = possibleTimes.filter((time) => {
     const isTimeBlocked = blockedTimes.some(

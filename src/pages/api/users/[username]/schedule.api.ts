@@ -1,4 +1,4 @@
-import { getGoogleOAuthToken } from '@/lib/google';
+import { getGoogleOAuthToken } from '@/lib/google'
 import dayjs from 'dayjs'
 import { google } from 'googleapis'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -9,9 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'POST') {
-    return res.status(405).end()
-  }
+  if (req.method !== 'POST') return res.status(405).end()
 
   const username = String(req.query.username)
 
@@ -21,9 +19,7 @@ export default async function handler(
     },
   })
 
-  if (!user) {
-    return res.status(400).json({ message: 'User does not exist.' })
-  }
+  if (!user) return res.status(400).json({ message: 'User does not exist.' })
 
   const createSchedulingBody = z.object({
     name: z.string(),
