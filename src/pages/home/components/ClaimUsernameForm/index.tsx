@@ -1,17 +1,18 @@
-import { ArrowRight } from 'phosphor-react'
 import { useRouter } from 'next/router'
+import { ArrowRight } from 'phosphor-react'
 
 import { Button, Text, TextInput } from '@ignite-ui/react'
 import { Form, FormAnnotation } from './styles'
-import { validateSchema } from '@/utils/schemaValidator'
+import { useValidateSchema } from '@/hooks/useSchemaValidator'
 import {
   ClaimUsernameFormDataType,
   claimUsernameFormData,
 } from '@/utils/schemas/claimUserNameSchema'
 
 export function ClaimUsernameForm() {
-  const { register, handleSubmit, errors, isSubmitting } =
-    validateSchema<ClaimUsernameFormDataType>(claimUsernameFormData)
+  const { register, handleSubmit, errors, isSubmitting } = useValidateSchema(
+    claimUsernameFormData as unknown as ClaimUsernameFormDataType,
+  )
 
   const router = useRouter()
 

@@ -1,6 +1,4 @@
-import { z } from "zod"
-
-export type ClaimUsernameFormDataType = z.infer<typeof claimUsernameFormData>
+import { z } from 'zod'
 
 export const claimUsernameFormData = z.object({
   username: z
@@ -11,3 +9,5 @@ export const claimUsernameFormData = z.object({
     })
     .transform((username) => username.toLowerCase()),
 })
+
+export type ClaimUsernameFormDataType = z.infer<typeof claimUsernameFormData>

@@ -3,20 +3,17 @@ import { ArrowRight } from 'phosphor-react'
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 import { Container, Form, FormError, Header } from './styles'
 import { useRouter } from 'next/router'
-import { validateSchema } from '@/utils/schemaValidator'
-import { RegisterFormDataType, registerFormSchema } from '@/utils/schemas/registerSchema'
+import { useValidateSchema } from '@/hooks/useSchemaValidator'
+import {
+  RegisterFormDataType,
+  registerFormSchema,
+} from '@/utils/schemas/registerSchema'
 import { api } from '@/lib/axios'
 import { AxiosError } from 'axios'
 
-
 export default function Register() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    errors,
-    isSubmitting,
-  } = validateSchema<RegisterFormDataType>(registerFormSchema)
+  const { register, handleSubmit, setValue, errors, isSubmitting } =
+    useValidateSchema(registerFormSchema as unknown as RegisterFormDataType)
 
   const router = useRouter()
 
@@ -24,7 +21,6 @@ export default function Register() {
     if (router.query.username)
       setValue('username', String(router.query.username))
   }, [router.query?.username, setValue])
-
 
   async function handleRegister({ name, username }: RegisterFormDataType) {
     try {
@@ -55,7 +51,7 @@ export default function Register() {
         <MultiStep size={4} currentStep={1} />
       </Header>
 
-       <Form as="form" onSubmit={handleSubmit(handleRegister)}>
+      <Form as="form" onSubmit={handleSubmit(handleRegister)}>
         <label>
           <Text size="sm">Nome de usuário</Text>
           <TextInput

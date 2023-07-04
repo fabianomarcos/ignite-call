@@ -1,4 +1,22 @@
-import { zodResolver } from '@hookform/resolvers/zod'
+import { api } from '@/lib/axios'
+import { GetServerSideProps } from 'next'
+import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
+import { NextSeo } from 'next-seo'
+import { useRouter } from 'next/router'
+import { ArrowRight } from 'phosphor-react'
+
+import { Container, Header } from '../styles'
+import { FormAnnotation, ProfileBox } from './styles'
+
+import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
+
+import { useValidateSchema } from '@/hooks/useSchemaValidator'
+import {
+  UpdateProfileSchemaType,
+  updateProfileSchema,
+} from '@/utils/schemas/updateProfileSchema'
+
 import {
   Avatar,
   Button,
@@ -7,38 +25,16 @@ import {
   Text,
   TextArea,
 } from '@ignite-ui/react'
-import { GetServerSideProps } from 'next'
-import { getServerSession } from 'next-auth'
-import { useSession } from 'next-auth/react'
-import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
-import { ArrowRight } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { api } from '@/lib/axios'
-import { Container, Header } from '../styles'
-import { FormAnnotation, ProfileBox } from './styles'
-import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
-
-const updateProfileSchema = z.object({
-  bio: z.string(),
-})
-
-type UpdateProfileData = z.infer<typeof updateProfileSchema>
 
 export default function UpdateProfile() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<UpdateProfileData>({
-    resolver: zodResolver(updateProfileSchema),
-  })
+  const { register, handleSubmit, isSubmitting } = useValidateSchema(
+    updateProfileSchema as unknown as UpdateProfileSchemaType,
+  )
 
   const session = useSession()
   const router = useRouter()
 
-  async function handleUpdateProfile(data: UpdateProfileData) {
+  async function handleUpdateProfile(data: UpdateProfileSchemaType) {
     await api.put('/users/profile', {
       bio: data.bio,
     })
