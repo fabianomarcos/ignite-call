@@ -3,7 +3,6 @@ interface GetWeekDaysParams {
 }
 
 export function getWeekDays({ short = false }: GetWeekDaysParams = {}) {
-  console.log('short: ', short)
   const formatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' })
 
   return Array.from(Array(7).keys())
