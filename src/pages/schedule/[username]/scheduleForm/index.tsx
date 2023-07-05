@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { CalendarStep } from './calendarStep'
 import { ConfirmStep } from './confirmStep'
 
-export function ScheduleForm() {
+interface IProps {
+  handleToggleLoader: (state: boolean) => void
+}
+
+export function ScheduleForm({ handleToggleLoader }: IProps) {
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>()
 
   const handleClearSelectedDateTime = () => setSelectedDateTime(null)
@@ -15,7 +19,10 @@ export function ScheduleForm() {
   )
 
   const calendarStepComponent = (
-    <CalendarStep onSelectDateTime={setSelectedDateTime} />
+    <CalendarStep
+      handleToggleLoader={handleToggleLoader}
+      onSelectDateTime={setSelectedDateTime}
+    />
   )
 
   return selectedDateTime ? confirmStepComponent : calendarStepComponent

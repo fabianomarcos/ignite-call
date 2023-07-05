@@ -33,6 +33,7 @@ import {
   defaultValues,
   timeIntervalsFormSchema,
 } from '@/utils/schemas/timeIntervalsSchema'
+import { Loader } from '@/components/loader'
 
 export default function TimeIntervals() {
   const { register, handleSubmit, control, watch, isSubmitting, errors } =
@@ -65,6 +66,8 @@ export default function TimeIntervals() {
   return (
     <>
       <NextSeo title="Selecione sua disponibilidade | Ignite Call" noindex />
+
+      {isSubmitting && <Loader />}
 
       <Container>
         <Header>

@@ -12,7 +12,9 @@ import {
   CalendarDay,
   CalendarHeader,
   CalendarTitle,
+  Loader_container,
 } from './styles'
+import { Loader } from '../loader'
 
 interface CalendarWeek {
   week: number
@@ -34,6 +36,7 @@ interface CalendarProps {
 }
 
 export function Calendar({ onDateSelected }: CalendarProps) {
+  const [showLoader, setShowLoader] = useState(false)
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
@@ -42,13 +45,11 @@ export function Calendar({ onDateSelected }: CalendarProps) {
 
   function handlePreviousMonth() {
     const previousMonth = currentDate.subtract(1, 'month')
-
     setCurrentDate(previousMonth)
   }
 
   function handleNextMonth() {
     const nextMonth = currentDate.add(1, 'month')
-
     setCurrentDate(nextMonth)
   }
 
@@ -62,6 +63,7 @@ export function Calendar({ onDateSelected }: CalendarProps) {
   const { data: blockedDates } = useQuery<BlockedDates>(
     ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
     async () => {
+      setShowLoader(true)
       const response = await api.get(`/users/${username}/blocked-dates`, {
         params: {
           year: currentDate.get('year'),
@@ -69,6 +71,7 @@ export function Calendar({ onDateSelected }: CalendarProps) {
         },
       })
 
+      setShowLoader(false)
       return response.data
     },
   )
@@ -166,6 +169,11 @@ export function Calendar({ onDateSelected }: CalendarProps) {
             ))}
           </tr>
         </thead>
+        {showLoader && (
+          <Loader_container>
+            <Loader />
+          </Loader_container>
+        )}
         <tbody>
           {calendarWeeks.map(({ week, days }) => {
             return (

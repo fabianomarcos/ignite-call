@@ -25,6 +25,7 @@ import {
   Text,
   TextArea,
 } from '@ignite-ui/react'
+import { Loader } from '@/components/loader'
 
 export default function UpdateProfile() {
   const { register, handleSubmit, isSubmitting } = useValidateSchema(
@@ -46,6 +47,7 @@ export default function UpdateProfile() {
     <>
       <NextSeo title="Atualize seu perfil | Ignite Call" noindex />
 
+      {isSubmitting && <Loader />}
       <Container>
         <Header>
           <Heading as="strong">Bem-vindo ao Ignite Call!</Heading>

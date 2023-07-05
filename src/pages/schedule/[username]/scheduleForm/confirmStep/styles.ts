@@ -46,3 +46,9 @@ export const FormActions = styled('div', {
   gap: '$2',
   marginTop: '$2',
 })
+
+export const Loader_container = styled('div', {
+  marginTop: '-220px',
+  marginLeft: '-320px',
+  position: 'fixed',
+})

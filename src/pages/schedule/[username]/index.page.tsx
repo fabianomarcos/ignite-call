@@ -4,6 +4,8 @@ import { NextSeo } from 'next-seo'
 import { prisma } from '../../../lib/prisma'
 import { ScheduleForm } from './scheduleForm'
 import { Container, UserHeader } from './styles'
+import { useState } from 'react'
+import { Loader } from '@/components/loader'
 
 interface ScheduleProps {
   user: {
@@ -14,10 +16,12 @@ interface ScheduleProps {
 }
 
 export default function Schedule({ user }: ScheduleProps) {
+  const [showLoader, setShowLoader] = useState(false)
+
   return (
     <>
       <NextSeo title={`Agendar com ${user.name} | Ignite Call`} />
-
+      {showLoader && <Loader />}
       <Container>
         <UserHeader>
           <Avatar src={user.avatarUrl} />
@@ -25,7 +29,7 @@ export default function Schedule({ user }: ScheduleProps) {
           <Text>{user.bio}</Text>
         </UserHeader>
 
-        <ScheduleForm />
+        <ScheduleForm handleToggleLoader={setShowLoader} />
       </Container>
     </>
   )

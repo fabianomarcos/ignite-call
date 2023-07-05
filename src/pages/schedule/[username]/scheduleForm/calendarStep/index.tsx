@@ -19,9 +19,13 @@ interface Availability {
 
 interface CalendarStepProps {
   onSelectDateTime: (date: Date) => void
+  handleToggleLoader: (state: boolean) => void
 }
 
-export function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
+export function CalendarStep({
+  onSelectDateTime,
+  handleToggleLoader,
+}: CalendarStepProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   const router = useRouter()
@@ -41,12 +45,14 @@ export function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
   const { data: availability } = useQuery<Availability>(
     ['availability', selectedDateWithoutTime],
     async () => {
+      handleToggleLoader(true)
       const response = await api.get(`/users/${username}/availability`, {
         params: {
           date: selectedDateWithoutTime,
         },
       })
 
+      handleToggleLoader(false)
       return response.data
     },
     {

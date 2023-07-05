@@ -93,3 +93,9 @@ export const CalendarDay = styled('button', {
     boxShadow: '0 0 0 2px $colors$gray100',
   },
 })
+
+export const Loader_container = styled('div', {
+  marginTop: '-340px',
+  marginLeft: '-500px',
+  position: 'fixed',
+})
