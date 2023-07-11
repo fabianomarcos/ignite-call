@@ -25,12 +25,8 @@ export default async function handler(
   const { bio } = updateProfileBodySchema.parse(req.body)
 
   await prisma.user.update({
-    where: {
-      id: session.user.id,
-    },
-    data: {
-      bio,
-    },
+    where: { id: session.user.id },
+    data: { bio },
   })
 
   return res.status(204).end()
