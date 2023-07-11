@@ -6,6 +6,11 @@ export const Container = styled(Box, {
   display: 'grid',
   position: 'relative',
 
+  '::-webkit-scrollbar': {
+    width: '5px',
+    border: '5px solid $gray300',
+  },
+
   variants: {
     isTimePickerOpen: {
       true: {
